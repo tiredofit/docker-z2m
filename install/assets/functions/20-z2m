@@ -1,0 +1,63 @@
+#!/command/with-contenv bash
+
+bootstrap_filesystem() {
+    if [ ! -d "${CONFIG_PATH}" ]; then
+        mkdir -p "${CONFIG_PATH}"
+    fi
+    if [ $(stat -c %U "${CONFIG_PATH}") != "${Z2M_USER}" ] ; then chown -R "${Z2M_USER}":"${Z2M_GROUP}" "${CONFIG_PATH}" ; fi
+
+    if [ ! -d "${DATA_PATH}" ]; then
+        mkdir -p "${DATA_PATH}"
+    fi
+    if [ $(stat -c %U "${DATA_PATH}") != "${Z2M_USER}" ] ; then chown "${Z2M_USER}":"${Z2M_GROUP}" "${DATA_PATH}" ; fi
+
+    if [ ! -d "${LOG_PATH}" ]; then
+        mkdir -p "${LOG_PATH}"
+    fi
+    if [ $(stat -c %U "${LOG_PATH}") != "${Z2M_USER}" ] ; then chown -R "${Z2M_USER}":"${Z2M_GROUP}" "${LOG_PATH}" ; fi
+
+    case "${LOG_TYPE,,}" in
+        file )
+            create_logrotate z2m "${LOG_PATH}"/"${LOG_FILE}" z2m "${Z2M_USER}" "${Z2M_GROUP}"
+        ;;
+    esac
+}
+
+configure_proxy() {
+    if var_false "${ENABLE_NGINX}" || var_false "${ENABLE_FRONTEND}" ; then
+        print_warn "Disabling Nginx - Using Z2M Frontend in place server - Be sure to set Authentication!"
+            service_stop 10-nginx
+    else
+        sed -i \
+                -e "s|{{FRONTEND_LISTEN_PORT}}|${FRONTEND_LISTEN_PORT}|g" \
+            /etc/nginx/sites.available/"${NGINX_SITE_ENABLED}".conf
+    fi
+}
+
+generate_config() {
+    if [ "${SETUP_MODE,,}" = "auto" ]; then
+        if [ ! -f "${DATA_PATH}"/"${CONFIG_FILE}" ] ; then
+            sudo -u "${Z2M_USER}" touch "${DATA_PATH}"/"${CONFIG_FILE}"
+            cat <<EOF | silent sudo -u "${Z2M_USER}" tee -a "${DATA_PATH}"/"${CONFIG_FILE}"
+# Z2M Configuration
+# First Generated on $(TZ=${TIMEZONE} date +'%Y-%m-%d %H:%M:%S %Z')
+
+advanced:
+  log_level: ${LOG_LEVEL}
+  log_directory: ${LOG_PATH}
+  log_file: ${LOG_FILE}
+  log_output:
+  $(for type in $(echo "${LOG_TYPE,,}" | tr ',' '\n' | uniq) ; do echo "    - ${type}" ; done)
+
+homeassistant: ${ENABLE_HOMEASSISTANT,,}
+permit_join: ${PERMIT_JOIN,,}
+
+mqtt:
+  base_topic: ${MQTT_TOPIC_BASE}
+  server: '${MQTT_HOST}'
+
+frontend: ${ENABLE_FRONTEND,,}
+EOF
+        fi
+    fi
+}

@@ -1,0 +1,11 @@
+#!/command/with-contenv bash
+
+source /assets/functions/00-container
+prepare_service
+PROCESS_NAME="z2m"
+
+bootstrap_filesystem
+generate_config
+configure_proxy
+
+liftoff

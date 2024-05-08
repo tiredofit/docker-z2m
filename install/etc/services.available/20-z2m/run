@@ -1,0 +1,17 @@
+#!/command/with-contenv bash
+
+source /assets/functions/00-container
+PROCESS_NAME="z2m"
+prepare_service defaults single
+
+check_container_initialized
+check_service_initialized init
+
+
+liftoff
+
+print_start "Starting Zigbee2MQTT ${Z2M_VERSION}"
+cd /app
+ZIGBEE2MQTT_CONFIG="${DATA_PATH}/${CONFIG_FILE}" exec s6-setuidgid z2m  \
+                                                    node \
+                                                        index.js
