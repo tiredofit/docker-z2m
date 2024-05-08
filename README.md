@@ -83,6 +83,8 @@ The following directories are used for configuration and can be mapped for persi
 
 | Directory | Description |
 | --------- | ----------- |
+| `/data`   | Data        |
+| `/logs`   | Logs        |
 
 
 * * *
@@ -100,14 +102,14 @@ Be sure to view the following repositories to understand all the customizable op
 
 
 #### Container Options
-| Variable | Value                            | Default |
-| -------- | -------------------------------- | ------- |
+| Variable | Value | Default |
+| -------- | ----- | ------- |
 
 
 ### Networking
 
 | Port | Protocol | Description |
-| -----| -------- | ----------- |
+| ---- | -------- | ----------- |
 
 ## Maintenance
 ### Shell Access
