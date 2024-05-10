@@ -1,74 +1,33 @@
 services:
   z2m-app:
-    image: CHANGE_ME/:latest
+    image: tiredofit/z2m:latest
     container_name: z2m-app
     labels:
       - traefik.enable=true
       - traefik.http.routers.z2m.rule=Host(`z2m.example.com`)
-      - traefik.http.services.z2m.loadbalancer.server.port=80
-    #volumes:
-      - ./config:/config
+      - traefik.http.services.z2m.loadbalancer.server.port=8080
+    volumes:
+      - ./data:/data
       - ./logs:/logs
     environment:
       - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=z2m-app
-      - SETUP_TYPE=AUTO
+      - SETUP_MODE=AUTO
 
-      - REDIS_HOST=z2m-db-redis
-      - DB_HOST=z2m-db
-      - DB_NAME=z2m
-      - DB_USER=z2m
-      - DB_PASS=z2m
+      - MQTT_HOST=mqtt://mqtt
+
+      - ADAPTER_LOCATION=tcp://zigbee-adapter:6638
+
+      - ENABLE_DEVICE_AVAILABILITY=false
+
+      - ENABLE_FRONTEND=true
+      - FRONTEND_LISTEN_PORT=8080
+
+      - ENABLE_OTA=false
+
+      - ZIGBEE_CHANNEL=25
     networks:
       - proxy
-      - services
-    restart: always
-
-  z2m-db:
-    image: tiredofit/mariadb:10.8
-    container_name: z2m-db
-    volumes:
-      - ./db/mariadb:/var/lib/mysql
-    environment:
-      - TIMEZONE=America/Vancouver
-      - CONTAINER_NAME=z2m-db-redis
-      - ROOT_PASS=password
-      - DB_NAME=z2m
-      - DB_USER=z2m
-      - DB_PASS=password
-    networks:
-      - services
-    restart: always
-
-  z2m-db-redis:
-    image: tiredofit/redis:7
-    container_name: z2m-db-redis
-    volumes:
-      - ./db/redis:/data
-    environment:
-      - TIMEZONE=America/Vancouver
-      - CONTAINER_NAME=z2m-db-redis
-    networks:
-      - services
-    restart: always
-
-  z2m-db-backup:
-    image: tiredofit/db-backup
-    container_name: z2m-db-backup
-    volumes:
-      - ./dbbackup:/backup
-    environment:
-      - TIMEZONE=America/Vancouver
-      - CONTAINER_NAME=z2m-db-backup
-      - DB_HOST=z2m-db
-      - DB_TYPE=mariadb
-      - DB_NAME=z2m
-      - DB_USER=z2m
-      - DB_PASS=password
-      - DB_DUMP_FREQ=1440
-      - DB_DUMP_BEGIN=0000
-      - DB_CLEANUP_TIME=8640
-    networks:
       - services
     restart: always
 
