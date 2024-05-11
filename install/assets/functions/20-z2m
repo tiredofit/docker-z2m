@@ -116,9 +116,16 @@ EOF
 
         ## Advanced
         ### Zigbee PAN and Key
-         if [ -n "${ZIGBEE_NETWORK_KEY}" ]; then
+        if [ -n "${ZIGBEE_NETWORK_KEY}" ]; then
             s6-setuidgid "${Z2M_USER}" yq -i    '
                                                     .advanced.network_key = ['$(echo "${ZIGBEE_NETWORK_KEY}")']
+                                                ' "${DATA_PATH}"/"${CONFIG_FILE}"
+        fi
+
+
+        if [ "$(yq '.advanced.network_key' "${DATA_PATH}"/"${CONFIG_FILE}")" = "null" ]; then
+            s6-setuidgid "${Z2M_USER}" yq -i    '
+                                                    .advanced.network_key = "GENERATE"
                                                 ' "${DATA_PATH}"/"${CONFIG_FILE}"
         fi
 
@@ -130,7 +137,7 @@ EOF
 
         if [ -n "${ZIGBEE_TRANSMIT_POWER}" ]; then
             s6-setuidgid "${Z2M_USER}" yq -i    '
-                                                    .advanced.pan_id = env(ZIGBEE_TRANSMIT_POWER)
+                                                    .advanced.transmit_power = env(ZIGBEE_TRANSMIT_POWER)
                                                 ' "${DATA_PATH}"/"${CONFIG_FILE}"
         fi
 
@@ -140,9 +147,21 @@ EOF
                                                 ' "${DATA_PATH}"/"${CONFIG_FILE}"
         fi
 
+        if [ "$(yq '.advanced.ext_pan_id' "${DATA_PATH}"/"${CONFIG_FILE}")" = "null" ]; then
+            s6-setuidgid "${Z2M_USER}" yq -i    '
+                                                    .advanced.ext_pan_id = "GENERATE"
+                                                ' "${DATA_PATH}"/"${CONFIG_FILE}"
+        fi
+
         if [ -n "${ZIGBEE_PAN_ID}" ]; then
             s6-setuidgid "${Z2M_USER}" yq -i    '
                                                     .advanced.pan_id = env(ZIGBEE_PAN_ID)
+                                                ' "${DATA_PATH}"/"${CONFIG_FILE}"
+        fi
+
+        if [ "$(yq '.advanced.pan_id' "${DATA_PATH}"/"${CONFIG_FILE}")" = "null" ]; then
+            s6-setuidgid "${Z2M_USER}" yq -i    '
+                                                    .advanced.pan_id = "GENERATE"
                                                 ' "${DATA_PATH}"/"${CONFIG_FILE}"
         fi
 

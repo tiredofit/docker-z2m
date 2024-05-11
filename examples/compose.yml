@@ -30,6 +30,7 @@ services:
       - ENABLE_OTA=false
 
       - ZIGBEE_CHANNEL=25
+      - ZIGBEE_TRANSMIT_POWER=20
     networks:
       - proxy
       - services
@@ -39,7 +40,7 @@ services:
     image: tiredofit/mosquitto:latest
     container_name: mqtt-app
     #ports:
-      #- 1833:1833
+      #- 1883:1883
     volumes:
       #- ./config:/config
       - ./data/mqtt:/data
@@ -48,7 +49,7 @@ services:
       - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=mqtt-app
 
-      - LISTEN_PORT=1833
+      - LISTEN_PORT=1883
 
       - LOG_LEVEL=all
       - LOG_TYPE=console,file
