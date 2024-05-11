@@ -1,7 +1,9 @@
 #!/command/with-contenv bash
 
 source /assets/functions/00-container
+set -a
 prepare_service
+set +a
 PROCESS_NAME="z2m"
 
 bootstrap_filesystem
