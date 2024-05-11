@@ -6,15 +6,19 @@ services:
       - traefik.enable=true
       - traefik.http.routers.z2m.rule=Host(`z2m.example.com`)
       - traefik.http.services.z2m.loadbalancer.server.port=8080
+    #ports:
+      #- 8080:8080
     volumes:
-      - ./data:/data
-      - ./logs:/logs
+      - ./data/z2m:/data
+      - ./logs/z2m:/logs
     environment:
       - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=z2m-app
       - SETUP_MODE=AUTO
 
       - MQTT_HOST=mqtt://mqtt
+      - MQTT_USER=mosquitto
+      - MQTT_PASS=secure
 
       - ADAPTER_LOCATION=tcp://zigbee-adapter:6638
 
@@ -28,6 +32,32 @@ services:
       - ZIGBEE_CHANNEL=25
     networks:
       - proxy
+      - services
+    restart: always
+
+  mqtt-app:
+    image: tiredofit/mosquitto:latest
+    container_name: mqtt-app
+    #ports:
+      #- 1833:1833
+    volumes:
+      #- ./config:/config
+      - ./data/mqtt:/data
+      - ./logs/mosquitto:/logs
+    environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=mqtt-app
+
+      - LISTEN_PORT=1833
+
+      - LOG_LEVEL=all
+      - LOG_TYPE=console,file
+
+      - CREDENTIAL01_USER=mosquitto
+      - CREDENTIAL01_PASS=secure
+
+      - ENABLE_PERSISTENCE=TRUE
+    networks:
       - services
     restart: always
 
