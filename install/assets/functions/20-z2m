@@ -261,7 +261,7 @@ EOF
         if var_true "${ENABLE_DEVICE_AVAILABILITY}" ; then
             s6-setuidgid "${Z2M_USER}" yq -i   '
                                                     .availability.active.timeout = env(DEVICE_AVAILABILITY_ACTIVE_TIMEOUT) |
-                                                    .availability.passive.timeout = env(DEVICE_AVAILABILITY_PASSIVE_TIMEOUT) |
+                                                    .availability.passive.timeout = env(DEVICE_AVAILABILITY_PASSIVE_TIMEOUT)
                                                 ' "${DATA_PATH}"/"${CONFIG_FILE}"
 
         else
