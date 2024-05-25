@@ -76,7 +76,7 @@ EOF
         ## MQTT Settings
         if [ -n "${MQTT_TOPIC_BASE}" ]; then
             s6-setuidgid "${Z2M_USER}" yq -i    '
-                                                    .mqtt.user = env(MQTT_TOPIC_BASE)
+                                                    .mqtt.base_topic = env(MQTT_TOPIC_BASE)
                                                 ' "${DATA_PATH}"/"${CONFIG_FILE}"
         fi
 
