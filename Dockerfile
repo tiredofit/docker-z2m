@@ -6,7 +6,7 @@ LABEL maintainer="Dave Conroy (github.com/REPLACE_REPOUSER)"
 
 ARG Z2M_VERSION
 
-ENV Z2M_VERSION=1.37.1 \
+ENV Z2M_VERSION=1.38.0 \
     Z2M_REPO_URL=https://github.com/koenkk/zigbee2mqtt \
     NGINX_SITE_ENABLED=z2m \
     NGINX_WEBROOT=/var/lib/nginx/wwwroot \
