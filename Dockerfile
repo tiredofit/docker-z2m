@@ -8,6 +8,7 @@ ARG Z2M_VERSION
 
 ENV Z2M_VERSION=1.38.0 \
     Z2M_REPO_URL=https://github.com/koenkk/zigbee2mqtt \
+    CONTAINER_PROCESS_RUNAWAY_PROTECTOR=FALSE \
     NGINX_SITE_ENABLED=z2m \
     NGINX_WEBROOT=/var/lib/nginx/wwwroot \
     NGINX_ENABLE_CREATE_SAMPLE_HTML=FALSE \
