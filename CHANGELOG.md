@@ -1,3 +1,9 @@
+## 1.0.2 2024-07-14 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add ENABLE_WATCHDOG and WATCHDOG_INTERVAL
+
+
 ## 1.0.1 2024-07-01 <dave at tiredofit dot ca>
 
    ### Added

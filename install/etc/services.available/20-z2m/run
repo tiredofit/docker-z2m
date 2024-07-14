@@ -7,11 +7,14 @@ prepare_service defaults single
 check_container_initialized
 check_service_initialized init
 
-
 liftoff
 
 print_start "Starting Zigbee2MQTT ${Z2M_VERSION}"
 cd /app
+if var_true "${ENABLE_WATCHDOG}" ; then
+    export Z2M_WATCHDOG="${WATCHDOG_INTERVAL}"
+fi
+
 export ZIGBEE2MQTT_CONFIG="${DATA_PATH}/${CONFIG_FILE}"
 export ZIGBEE2MQTT_DATA="${DATA_PATH}"
     exec s6-setuidgid z2m  \
