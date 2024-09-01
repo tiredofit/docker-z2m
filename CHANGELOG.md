@@ -1,3 +1,9 @@
+## 1.0.4 2024-09-01 <dave at tiredofit dot ca>
+
+   ### Added
+      - Zigbee2MQTT 1.40.0
+
+
 ## 1.0.3 2024-08-01 <dave at tiredofit dot ca>
 
    ### Added
