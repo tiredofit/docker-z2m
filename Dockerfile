@@ -1,12 +1,12 @@
 ARG DISTRO=alpine
 ARG DISTRO_VARIANT=3.20
 
-FROM docker.io/tiredofit/nginx:${DISTRO}-${DISTRO_VARIANT}-6.5.2
+FROM docker.io/tiredofit/nginx:${DISTRO}-${DISTRO_VARIANT}-6.5.4
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ARG Z2M_VERSION
 
-ENV Z2M_VERSION=1.40.2 \
+ENV Z2M_VERSION=1.41.0 \
     Z2M_REPO_URL=https://github.com/koenkk/zigbee2mqtt \
     CONTAINER_PROCESS_RUNAWAY_PROTECTOR=FALSE \
     NGINX_SITE_ENABLED=z2m \
