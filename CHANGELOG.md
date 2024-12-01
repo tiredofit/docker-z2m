@@ -1,3 +1,10 @@
+## 1.0.8 2024-12-01 <dave at tiredofit dot ca>
+
+   ### Added
+      - Zigbee2MQTT 1.42.0
+      - Pin to tiredofit/nginx:6.5.6
+
+
 ## 1.0.7 2024-11-01 <dave at tiredofit dot ca>
 
    ### Added
