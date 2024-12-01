@@ -234,7 +234,6 @@ EOF
         ## OTA
         if var_true "${ENABLE_OTA}" ; then
             s6-setuidgid "${Z2M_USER}" yq -i   '
-                                                    .ota.ikea_ota_use_test_url = env(OTA_IKEA_USE_TEST_URL) |
                                                     .ota.homeassistant.update_check_inteval = env(HOMEASSISTANT_MQTT_TOPIC_STATUS) |
                                                     .ota.homeassistant.disable_automatic_update_check = env(OTA_ENABLE_AUTO_UPDATE_CHECK) |
                                                     .ota.homeassistant.update_check_interval = env(OTA_AUTO_UPDATE_CHECK_INTERVAL)
@@ -250,10 +249,6 @@ EOF
                                                     (del .ota)
                                                 ' "${DATA_PATH}"/"${CONFIG_FILE}"
         fi
-
-        s6-setuidgid "${Z2M_USER}" yq -i    '
-                                                .permit_join = '$(echo "${PERMIT_JOIN,,}")'
-                                            ' "${DATA_PATH}"/"${CONFIG_FILE}"
 
         fi
 
