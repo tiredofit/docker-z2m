@@ -6,7 +6,7 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ARG Z2M_VERSION
 
-ENV Z2M_VERSION=2.1.1 \
+ENV Z2M_VERSION=2.1.2 \
     Z2M_REPO_URL=https://github.com/koenkk/zigbee2mqtt \
     CONTAINER_PROCESS_RUNAWAY_PROTECTOR=FALSE \
     NGINX_SITE_ENABLED=z2m \
