@@ -1,3 +1,10 @@
+## 1.0.17 2025-05-01 <dave at tiredofit dot ca>
+
+   ### Added
+      - Pin to tiredofit/nginx:6.5.18
+      - Zigbee2MQTT 2.3.0
+
+
 ## 1.0.16 2025-04-04 <dave at tiredofit dot ca>
 
    ### Added
